@@ -1,5 +1,6 @@
 from fractions import Fraction
 
+
 def get_lcm(x, y):
     if x > y:
         init_greater = x
@@ -37,11 +38,11 @@ def reduce_fraction(x, y):
     gcd = a + b
 
     if x * y >= 0:
-        return f"{int(x / gcd)}/{int(y / gcd)}".replace("-", "")
+        return f"{int(x / gcd)}/{int(y / gcd)}".replace("-", "") if y / gcd not in (1, -1) else f"{int(x / gcd)}"
     elif x < 0:
-        return f"-{int(-x / gcd)}/{int(y / gcd)}"
+        return f"-{int(-x / gcd)}/{int(y / gcd)}" if y / gcd != 1 else f"-{int(-x / gcd)}"
     else:
-        return f"-{int(x / gcd)}/{int(-y / gcd)}"
+        return f"-{int(x / gcd)}/{int(-y / gcd)}" if y / gcd != -1 else f"-{int(x / gcd)}"
 
 
 fraction_one = input("Введите первую дробь: ")
@@ -62,9 +63,9 @@ fraction_sum = reduce_fraction(new_com_num, least_com_den)
 fraction_mult = reduce_fraction(mult_num, mult_den)
 
 print(f"Сумма дробей равна {fraction_sum}")
-print(f"Сумма дробей равна {fraction_mult}")
+print(f"Произведение дробей равна {fraction_mult}")
 
-a = Fraction(num_one, den_one)
-b = Fraction(num_two, den_two)
+m = Fraction(num_one, den_one)
+n = Fraction(num_two, den_two)
 
-print(str(a + b) == fraction_sum and str(a * b) == fraction_mult)
+print(str(m + n) == fraction_sum and str(m * n) == fraction_mult)
