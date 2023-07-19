@@ -1,3 +1,6 @@
+from inspect import signature
+
+
 class Animal:
     alive = True
 
@@ -53,20 +56,24 @@ class Wolf(Animal):
 
 
 class Factory:
-    def get_animal(self, class_name: str, name: str, weight: int, height: int, special_parameter: int):
-        classes = {
-            'Fish': Fish,
-            'Bird': Bird,
-            'Wolf': Wolf
-        }
-        if class_name in classes:
-            return classes[class_name](name, weight, height, special_parameter)
+    def __init__(self, _class, *args):
+        self._class = _class
+        self.params = args
+
+    def get_animal(self):
+        classes = [Fish, Bird, Wolf]
+        if self._class in classes and len(self.params) == 4:
+            return self._class(*self.params)
+        elif self._class not in classes:
+            print(f'Класса {self._class} нет.')
+            return None
         else:
-            print(f'Класса {class_name} нет. Создаем экземпляр класса Animal')
-            return Animal(name, weight, height)
+            print(f'Параметров передано: {len(self.params)}. Для класса {self._class.__name__} '
+                  f'необходимо {len(signature(self._class.__init__).parameters) - 1}.')
+            return None
 
 
-factory = Factory()
-fish = factory.get_animal('Fish', 'Немо', 1, 5, 20)
+factory = Factory(Fish, 'Немо', 1, 5, 20)
+fish = factory.get_animal()
 
-print(fish.get_info())
+print(fish)
